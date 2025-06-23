@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Firebase Auth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <style>
+      body {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center text-white">
+    <div class="w-full max-w-md p-6 rounded-2xl glass shadow-xl text-center">
+      <!-- Tabs -->
+      <div id="authTabs" class="flex justify-between mb-6">
+        <button id="loginTab" class="w-1/2 text-center font-bold border-b-2 border-white py-2">Login</button>
+        <button id="signupTab" class="w-1/2 text-center font-bold text-gray-300 border-b-2 border-transparent py-2 hover:text-white hover:border-white">Sign Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="space-y-5">
+        <input id="loginEmail" type="email" placeholder="Email" class="w-full px-4 py-2 rounded bg-white/10 text-white" />
+        <input id="loginPassword" type="password" placeholder="Password" class="w-full px-4 py-2 rounded bg-white/10 text-white" />
+        <button type="submit" class="w-full bg-blue-600 py-2 rounded">Login</button>
+      </form>
+
+      <!-- Signup Form -->
+      <form id="signupForm" class="space-y-5 hidden">
+        <input id="signupEmail" type="email" placeholder="Email" class="w-full px-4 py-2 rounded bg-white/10 text-white" />
+        <input id="signupPassword" type="password" placeholder="Password" class="w-full px-4 py-2 rounded bg-white/10 text-white" />
+        <button type="submit" class="w-full bg-green-600 py-2 rounded">Sign Up</button>
+      </form>
+
+      <!-- After Login UI -->
+      <!-- After Login UI -->
+<div id="userPanel" class="hidden">
+  <p class="text-lg font-semibold mt-4">👋 Welcome, <span id="userEmail"></span></p>
+
+  <div class="mt-6 space-y-3">
+    <a href="student.html" class="block w-full bg-indigo-500 hover:bg-indigo-600 py-2 rounded">🎓 Student Portal</a>
+    <button id="logoutBtn" class="w-full bg-red-500 hover:bg-red-600 py-2 rounded">🚪 Logout</button>
+  </div>
+</div>
+
+
+      <div id="message" class="text-sm mt-4 text-yellow-200"></div>
+    </div>
+
+    <script>
+      // 🔧 Your Firebase config here
+      const firebaseConfig = {
+    apiKey: "AIzaSyC_d96H8mkOY0x-szOYtZ9vXBQVZw9td4w",
+    authDomain: "cuet-auth.firebaseapp.com",
+    projectId: "cuet-auth",
+    storageBucket: "cuet-auth.firebasestorage.app",
+    messagingSenderId: "810867755949",
+    appId: "1:810867755949:web:48c62e13a1bf6001826f24",
+    measurementId: "G-W5YQ2VDCPV"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      const loginTab = document.getElementById("loginTab");
+      const signupTab = document.getElementById("signupTab");
+      const loginForm = document.getElementById("loginForm");
+      const signupForm = document.getElementById("signupForm");
+      const userPanel = document.getElementById("userPanel");
+      const userEmailDisplay = document.getElementById("userEmail");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const authTabs = document.getElementById("authTabs");
+      const message = document.getElementById("message");
+
+      loginTab.addEventListener("click", () => {
+        loginForm.classList.remove("hidden");
+        signupForm.classList.add("hidden");
+        loginTab.classList.add("text-white", "border-white");
+        signupTab.classList.remove("text-white", "border-white");
+        signupTab.classList.add("text-gray-300");
+        message.innerText = "";
+      });
+
+      signupTab.addEventListener("click", () => {
+        signupForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+        signupTab.classList.add("text-white", "border-white");
+        loginTab.classList.remove("text-white", "border-white");
+        loginTab.classList.add("text-gray-300");
+        message.innerText = "";
+      });
+
+      signupForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("signupEmail").value;
+        const password = document.getElementById("signupPassword").value;
+
+        try {
+          await auth.createUserWithEmailAndPassword(email, password);
+          message.innerText = "✅ Account created successfully!";
+        } catch (error) {
+          message.innerText = `❌ ${error.message}`;
+        }
+      });
+
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
+
+        try {
+          await auth.signInWithEmailAndPassword(email, password);
+          message.innerText = "✅ Logged in successfully!";
+        } catch (error) {
+          message.innerText = `❌ ${error.message}`;
+        }
+      });
+
+      logoutBtn.addEventListener("click", async () => {
+        await auth.signOut();
+      });
+
+      // 🔁 Auth State Listener
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          userEmailDisplay.textContent = user.email;
+          userPanel.classList.remove("hidden");
+          loginForm.classList.add("hidden");
+          signupForm.classList.add("hidden");
+          authTabs.classList.add("hidden");
+        } else {
+          userPanel.classList.add("hidden");
+          loginForm.classList.remove("hidden");
+          authTabs.classList.remove("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>
