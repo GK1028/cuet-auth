@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Student Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  </head>
+  <body class="bg-gray-100">
+
+    <!-- Header -->
+    <header class="bg-green-200 shadow px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-purple-600">🎓 CUET Student Portal</h1>
+      <div class="flex items-center gap-4">
+        <p id="studentEmail" class="text-gray-700 font-medium">Loading...</p>
+        <button id="logoutBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Logout</button>
+      </div>
+    </header>
+
+    <!-- Layout -->
+    <div class="flex min-h-[calc(100vh-72px)]">
+
+      <!-- Sidebar -->
+      <aside class="w-64 bg-blue-100 shadow-md p-6 hidden md:block">
+        <nav class="space-y-4">
+          <a href="#" class="block text-gray-800 hover:text-purple-600 font-semibold">🏠 Dashboard</a>
+          <a href="#" class="block text-gray-800 hover:text-purple-600 font-semibold">📚 My Courses</a>
+          <a href="#" class="block text-gray-800 hover:text-purple-600 font-semibold">📝 Assignments</a>
+          <a href="#" class="block text-gray-800 hover:text-purple-600 font-semibold">📈 Results</a>
+          <a href="#" class="block text-gray-800 hover:text-purple-600 font-semibold">📅 Class Routine</a>
+          <a href="#" class="block text-gray-800 hover:text-purple-600 font-semibold">📨 Messages</a>
+          <a href="#" class="block text-gray-800 hover:text-purple-600 font-semibold">⚙️ Settings</a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Welcome, Student!</h2>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div class="bg-white rounded shadow p-4">
+            <h3 class="text-lg font-bold text-purple-600">Upcoming Classes</h3>
+            <ul class="mt-2 text-gray-600 text-sm">
+              <li>📘 CSE 301 – Mon 10:00 AM</li>
+              <li>📗 MAT 202 – Tue 1:30 PM</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded shadow p-4">
+            <h3 class="text-lg font-bold text-purple-600">Recent Results</h3>
+            <ul class="mt-2 text-gray-600 text-sm">
+              <li>✅ CSE 301: A</li>
+              <li>✅ MAT 202: A-</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded shadow p-4">
+            <h3 class="text-lg font-bold text-purple-600">Notices</h3>
+            <ul class="mt-2 text-gray-600 text-sm">
+              <li>📢 Class canceled on Thursday</li>
+              <li>📢 Mid-term schedule uploaded</li>
+            </ul>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Firebase & Logout Script -->
+    <script>
+        const firebaseConfig = {
+    apiKey: "AIzaSyC_d96H8mkOY0x-szOYtZ9vXBQVZw9td4w",
+    authDomain: "cuet-auth.firebaseapp.com",
+    projectId: "cuet-auth",
+    storageBucket: "cuet-auth.firebasestorage.app",
+    messagingSenderId: "810867755949",
+    appId: "1:810867755949:web:48c62e13a1bf6001826f24",
+    measurementId: "G-W5YQ2VDCPV"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      const logoutBtn = document.getElementById("logoutBtn");
+      const studentEmail = document.getElementById("studentEmail");
+
+      // Logout handler
+      logoutBtn.addEventListener("click", () => {
+        auth.signOut().then(() => {
+          window.location.href = "index.html"; // redirect to login
+        });
+      });
+
+      // Show student email
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          studentEmail.textContent = user.email;
+        } else {
+          window.location.href = "index.html"; // redirect if not logged in
+        }
+      });
+    </script>
+
+  </body>
+</html>
