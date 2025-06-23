@@ -32,16 +32,42 @@
           />
           <span class="font-bold text-xl">CUET</span>
         </div>
-        <nav class="hidden md:flex items-center gap-6 text-sm">
-          <a href="#" class="hover:text-blue-200">About</a>
-          <a href="#" class="hover:text-blue-200">Departments</a>
-          <a href="#" class="hover:text-blue-200">Admission</a>
-          <a href="#" class="hover:text-blue-200">Research</a>
-          <a href="#" class="hover:text-blue-200">Contact</a>
-          <a href="login.html" class="hover:text-blue-200">Login</a>
+        <!-- Top Navbar -->
+<nav class=" shadow z-50">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex space-x-8">
+        <a href="#" class="text-gray-800 font-semibold hover:text-purple-600">HOME</a>
 
-        </nav>
+        <!-- Dropdown Parent -->
+        <div class="relative group">
+          <button class="text-gray-800 font-semibold hover:text-purple-600">
+            ABOUT CUET
+          </button>
+
+          <!-- Sub-Navbar (Dropdown) -->
+          <div class="absolute left-0 mt-2 w-64 bg-black shadow-lg rounded-md py-2 opacity-0 group-hover:opacity-100 group-hover:visible invisible transition duration-200 ease-in-out z-50">
+            <a href="#" class="block px-4 py-2 hover:bg-purple-100 text-sm">Message And Profile Of VC</a>
+            <a href="#" class="block px-4 py-2 hover:bg-purple-100 text-sm">History Of CUET</a>
+            <a href="#" class="block px-4 py-2 hover:bg-purple-100 text-sm">Administration</a>
+            <a href="#" class="block px-4 py-2 hover:bg-purple-100 text-sm">Mission & Objectives</a>
+            <a href="#" class="block px-4 py-2 hover:bg-purple-100 text-sm">CUET - At A Glance</a>
+            <a href="#" class="block px-4 py-2 hover:bg-purple-100 text-sm">International Collaboration</a>
+            <a href="#" class="block px-4 py-2 hover:bg-purple-100 text-sm">Academic Council Member List</a>
+          </div>
+        </div>
+
+        <a href="#" class="text-gray-800 font-semibold hover:text-purple-600">Departments</a>
+        <a href="#" class="text-gray-800 font-semibold hover:text-purple-600">Admission</a>
+        <a href="#" class="text-gray-800 font-semibold hover:text-purple-600">Research</a>
+        <a href="#" class="text-gray-800 font-semibold hover:text-purple-600">Contact</a>
+        <a href="#" class="text-gray-800 font-semibold hover:text-purple-600">ACADEMIC</a>
+        <a href="login.html" class="text-gray-800 font-semibold hover:text-purple-600">LOGIN</a>
       </div>
+    </div>
+  </div>
+</nav>
+        
     </header>
 
     <!-- ========== Hero Slider ========== -->
